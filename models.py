@@ -11,8 +11,8 @@ def setup_db(app):
     db.app = app
     db.init_app(app)
 
-    db.drop_all()
-    db.create_all()
+    # db.drop_all()
+    # db.create_all()
 
     insert_demo_data()
     
