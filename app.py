@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer
 from models import setup_db, Actor, Movie
+from helpers import paginate_items
 
 app = Flask(__name__, static_url_path='/static')
 setup_db(app)
@@ -12,6 +13,7 @@ setup_db(app)
 #  ----------------------------------------------------------------
 
 CORS(app)
+
 
 @app.after_request
 def after_request(response):
@@ -31,6 +33,7 @@ def index():
         'author': 'Felipe Silveira'
     })
 
+
 @app.route('/docs')
 def documentation():
     return render_template('index.html')
@@ -38,25 +41,39 @@ def documentation():
 #  Actor
 #  ----------------------------------------------------------------
 
+
 @app.route('/actors')
 def get_actors():
-    selection = Actor.query.all()
-    actors = [item.serialize() for item in selection]
+    try:
+        selection = Actor.query.order_by(Actor.id).all()
+        current_actors = paginate_items(request, selection)
 
-    return jsonify({
-        'actors': actors,
-        'error': False
-    })
-    
+        return jsonify({
+            'error': False,
+            'data': current_actors,
+            'total_items': len(selection),
+        })
+    except BaseException:
+        abort(422)
+
+
+#  Movies
+#  ----------------------------------------------------------------
+
 @app.route('/movies')
 def get_movies():
-    selection = Movie.query.all()
-    movies = [item.serialize() for item in selection]
+    try:
+        selection = Movie.query.order_by(Movie.id).all()
+        current_movies = paginate_items(request, selection)
 
-    return jsonify({
-        'movies': movies,
-        'error': False
-    })
+        return jsonify({
+            'error': False,
+            'data': current_movies,
+            'total_items': len(selection),
+        })
+    except BaseException:
+        abort(422)
+
 
 if __name__ == '__main__':
     app.run()
