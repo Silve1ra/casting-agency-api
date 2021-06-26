@@ -2,6 +2,7 @@ import os
 from flask import Flask, jsonify, render_template, abort, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from sqlalchemy import Column, String, Integer
 
 app = Flask(__name__, static_url_path='/static')
@@ -24,8 +25,9 @@ database_path = os.environ['DATABASE_URL']
 app.config["SQLALCHEMY_DATABASE_URI"] = database_path
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-db = SQLAlchemy()
-db.init_app(app)
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+# db.init_app(app)
 
 #  Model
 #  ----------------------------------------------------------------
@@ -52,7 +54,7 @@ class Actor(db.Model):
         }
 
 db.app = app
-# db.create_all()
+db.create_all()
 
 #  System
 #  ----------------------------------------------------------------
