@@ -1,4 +1,6 @@
 from flask import Flask, jsonify, render_template, abort, request
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, String, Integer
 # from models import setup_db, Actor, Movie
 
 app = Flask(__name__, static_url_path='/static')
@@ -6,6 +8,13 @@ app = Flask(__name__, static_url_path='/static')
 database_path = os.environ['DATABASE_URL']
 app.config["SQLALCHEMY_DATABASE_URI"] = database_path
 db = SQLAlchemy()
+
+class Actor(db.Model):
+    __tablename__ = 'actors'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    age = db.Column(db.String(120))
+    gender = db.Column(db.String(120))
 
 @app.route('/')
 def index():
