@@ -1,9 +1,11 @@
 import os
 from flask import Flask, jsonify, render_template, abort, request
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer
 
 app = Flask(__name__, static_url_path='/static')
+CORS(app)
 
 #  Db config
 #  ----------------------------------------------------------------
@@ -65,7 +67,7 @@ def get_actors():
         age='47',
         gender='male'
     )
-    
+
     db.session.add(actor)
     db.session.commit()
 
