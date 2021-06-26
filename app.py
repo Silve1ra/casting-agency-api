@@ -52,7 +52,7 @@ class Actor(db.Model):
         }
 
 db.app = app
-db.create_all()
+# db.create_all()
 
 #  System
 #  ----------------------------------------------------------------
