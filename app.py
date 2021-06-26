@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer
 from models import setup_db, Actor, Movie
 from helpers import paginate_items
+from auth import AuthError, requires_auth
 
 app = Flask(__name__, static_url_path='/static')
 setup_db(app)
@@ -42,7 +43,8 @@ def documentation():
 #  ----------------------------------------------------------------
 
 @app.route('/actors')
-def get_actors():
+@requires_auth('get:actors')
+def get_actors(payload):
     try:
         selection = Actor.query.order_by(Actor.id).all()
         current_actors = paginate_items(request, selection)
@@ -57,7 +59,8 @@ def get_actors():
 
 
 @app.route('/actors/<int:actor_id>')
-def show_actor(actor_id):
+@requires_auth('get:actors')
+def show_actor(payload, actor_id):
     try:
         actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
         return jsonify({
@@ -69,7 +72,8 @@ def show_actor(actor_id):
 
 
 @app.route('/actors', methods=['POST'])
-def create_actor():
+@requires_auth('post:actors')
+def create_actor(payload):
     body = request.get_json()
     if 'name' not in body:
         abort(400)
@@ -90,7 +94,8 @@ def create_actor():
 
 
 @app.route('/actors/<int:actor_id>', methods=['PATCH'])
-def update_actor(actor_id):
+@requires_auth('patch:actors')
+def update_actor(payload, actor_id):
     actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
     if actor is None:
         abort(404)
@@ -121,7 +126,8 @@ def update_actor(actor_id):
 
 
 @app.route('/actors/<int:actor_id>', methods=['DELETE'])
-def delete_actor(actor_id):
+@requires_auth('delete:actors')
+def delete_actor(payload, actor_id):
     actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
     if actor is None:
         abort(404)
@@ -141,7 +147,8 @@ def delete_actor(actor_id):
 
 
 @app.route('/movies')
-def get_movies():
+@requires_auth('get:movies')
+def get_movies(payload):
     try:
         selection = Movie.query.order_by(Movie.id).all()
         current_movies = paginate_items(request, selection)
@@ -156,7 +163,8 @@ def get_movies():
 
 
 @app.route('/movies/<int:movie_id>')
-def show_movie(movie_id):
+@requires_auth('get:movies')
+def show_movie(payload, movie_id):
     try:
         movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
         return jsonify({
@@ -169,7 +177,8 @@ def show_movie(movie_id):
 
 
 @app.route('/movies', methods=['POST'])
-def create_movie():
+@requires_auth('post:movies')
+def create_movie(payload):
     body = request.get_json()
     if 'title' not in body:
         abort(400)
@@ -190,7 +199,8 @@ def create_movie():
 
 
 @app.route('/movies/<int:movie_id>', methods=['PATCH'])
-def update_movie(movie_id):
+@requires_auth('patch:movies')
+def update_movie(payload, movie_id):
     movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
     if movie is None:
         abort(404)
@@ -218,7 +228,8 @@ def update_movie(movie_id):
 
 
 @app.route('/movies/<int:movie_id>', methods=['DELETE'])
-def delete_movie(movie_id):
+@requires_auth('delete:movies')
+def delete_movie(payload, movie_id):
     movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
     if movie is None:
         abort(404)
@@ -291,6 +302,13 @@ def internal_server_error(error):
         "message": "internal server error"
     }), 500
 
+@app.errorhandler(AuthError)
+def auth_error(error):
+    return jsonify({
+        "success": False,
+        "error": error.status_code,
+        "message": error.error['description']
+    }), error.status_code
 
 
 if __name__ == '__main__':
