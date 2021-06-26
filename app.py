@@ -21,7 +21,7 @@ def after_request(response):
 #  Db config
 #  ----------------------------------------------------------------
 
-database_path = os.environ['DATABASE_URL']
+database_path = os.environ['DATABASE_URL_HEROKU']
 app.config["SQLALCHEMY_DATABASE_URI"] = database_path
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
