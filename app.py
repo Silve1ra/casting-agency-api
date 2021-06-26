@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, render_template
+from models import setup_db, Actor, Movie
 
 app = Flask(__name__, static_url_path='/static')
+setup_db(app)
 
 @app.route('/')
 def index():
