@@ -31,7 +31,7 @@ def setup_db(app, database_path=database_path):
 #  Drop and create all db
 #  ----------------------------------------------------------------
 def db_drop_and_create_all():
-    db.drop_all()
+    # db.drop_all()
     db.create_all()
 
     # add one demo row for actors
