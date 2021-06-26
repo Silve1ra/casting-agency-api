@@ -51,6 +51,8 @@ class Actor(db.Model):
             'gender': self.gender,
         }
 
+db.app = app
+db.create_all()
 
 #  System
 #  ----------------------------------------------------------------
