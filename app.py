@@ -8,14 +8,31 @@ app = Flask(__name__, static_url_path='/static')
 
 database_path = os.environ['DATABASE_URL']
 app.config["SQLALCHEMY_DATABASE_URI"] = database_path
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
 db = SQLAlchemy()
+db.init_app(app)
 
 class Actor(db.Model):
     __tablename__ = 'actors'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     age = db.Column(db.String(120))
     gender = db.Column(db.String(120))
+
+    def __init__(self, name, age, gender):
+        self.name = name
+        self.age = age
+        self.gender = gender
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'age': self.age,
+            'gender': self.gender,
+        }
 
 @app.route('/')
 def index():
@@ -53,20 +70,20 @@ def documentation():
 #  Actors
 #  ----------------------------------------------------------------
 
-# @app.route('/actors')
-# def get_actors():
-#     try:
-#         selection = Actor.query.order_by(Actor.id).all()
-#         current_actors = [item.serialize() for item in selection]
-#         # current_actors = paginate_items(request, selection)
+@app.route('/actors')
+def get_actors():
+    try:
+        selection = Actor.query.all()
+        actors = [item.serialize() for item in selection]
 
-#         return jsonify({
-#             'error': False,
-#             'data': current_actors,
-#             'total_items': len(selection),
-#         })
-#     except BaseException:
-#         abort(422)
+        return jsonify({
+            'actors': actors,
+            'error': False
+        })
+        
+    except BaseException:
+        abort(404)
+    
 
 
 # @app.route('/actors/<int:actor_id>')
