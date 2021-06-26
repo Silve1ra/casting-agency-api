@@ -5,7 +5,17 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer
 
 app = Flask(__name__, static_url_path='/static')
+
+#  CORS
+#  ----------------------------------------------------------------
+
 CORS(app)
+
+@app.after_request
+def after_request(response):
+    header = response.headers
+    header['Access-Control-Allow-Origin'] = '*'
+    return response
 
 #  Db config
 #  ----------------------------------------------------------------
