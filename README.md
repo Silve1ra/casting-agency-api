@@ -19,14 +19,14 @@ This project is a casting agency to operate movies and actors.
 All backend code follows [PEP8 style guidelines](https://www.python.org/dev/peps/pep-0008/). 
 
 
-## 💭 Getting Started
+## 💻 Getting Started
 
 ### Live demo
 url: https://casting-api-silve1ra.herokuapp.com/
 
 documentation: https://casting-api-silve1ra.herokuapp.com/docs
 
-### Local Development 
+### 🏡 Local Development 
 Developers using this project should already have Python3, pip and node installed on their local machines.
 
 To run the application run the following commands: 
@@ -54,7 +54,7 @@ python test_app.py
 ```
 
 
-### 💻 Endpoints
+### 🎯 Endpoints
 There are complete information about endpoints in the documentation, please refer there [Docs](https://casting-api-silve1ra.herokuapp.com/docs "Documentation")
 
 
