@@ -34,6 +34,17 @@ class Actor(db.Model):
             'gender': self.gender,
         }
 
+def insert_demo_data():
+    # add one demo row for actors
+    actor = Actor(
+        name='Christian Bale',
+        age='47',
+        gender='male'
+    )
+    actor.insert()
+
+insert_demo_data()
+
 @app.route('/')
 def index():
     return jsonify({
@@ -80,7 +91,7 @@ def get_actors():
             'actors': actors,
             'error': False
         })
-        
+
     except BaseException:
         abort(404)
     
