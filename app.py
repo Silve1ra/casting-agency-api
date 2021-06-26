@@ -81,17 +81,13 @@ def get_actors():
     db.session.add(actor)
     db.session.commit()
 
-    try:
-        selection = Actor.query.all()
-        actors = [item.serialize() for item in selection]
+    selection = Actor.query.all()
+    actors = [item.serialize() for item in selection]
 
-        return jsonify({
-            'actors': actors,
-            'error': False
-        })
-
-    except BaseException:
-        abort(404)
+    return jsonify({
+        'actors': actors,
+        'error': False
+    })
     
 
 if __name__ == '__main__':
