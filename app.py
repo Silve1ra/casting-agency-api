@@ -74,15 +74,6 @@ def documentation():
 
 @app.route('/actors')
 def get_actors():
-    actor = Actor(
-        name='Christian Bale',
-        age='47',
-        gender='male'
-    )
-
-    db.session.add(actor)
-    db.session.commit()
-
     selection = Actor.query.all()
     actors = [item.serialize() for item in selection]
 
