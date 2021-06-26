@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, render_template, abort, request
-# from models import setup_db, Actor, Movie
+from models import setup_db, Actor, Movie
 
 app = Flask(__name__, static_url_path='/static')
-# setup_db(app)
+setup_db(app)
 
 @app.route('/')
 def index():
@@ -40,19 +40,20 @@ def documentation():
 #  Actors
 #  ----------------------------------------------------------------
 
-# @app.route('/actors')
-# def get_actors():
-#     try:
-#         selection = Actor.query.order_by(Actor.id).all()
-#         current_actors = paginate_items(request, selection)
+@app.route('/actors')
+def get_actors():
+    try:
+        selection = Actor.query.order_by(Actor.id).all()
+        current_actors = [item.serialize() for item in selection]
+        # current_actors = paginate_items(request, selection)
 
-#         return jsonify({
-#             'error': False,
-#             'data': current_actors,
-#             'total_items': len(selection),
-#         })
-#     except BaseException:
-#         abort(422)
+        return jsonify({
+            'error': False,
+            'data': current_actors,
+            'total_items': len(selection),
+        })
+    except BaseException:
+        abort(422)
 
 
 # @app.route('/actors/<int:actor_id>')
