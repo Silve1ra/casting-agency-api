@@ -1,16 +1,11 @@
-#----------------------------------------------------------------------------#
-# Imports
-#----------------------------------------------------------------------------#
-
 import os
 import sys
 from sqlalchemy import Column, String, Integer
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-#----------------------------------------------------------------------------#
-# Db Config.
-#----------------------------------------------------------------------------#
+#  Db config
+#  ----------------------------------------------------------------
 
 database_path = os.environ['DATABASE_URL_HEROKU']
 db = SQLAlchemy()
@@ -30,6 +25,7 @@ def setup_db(app, database_path=database_path):
 
 #  Drop and create all db
 #  ----------------------------------------------------------------
+
 def db_drop_and_create_all():
     # db.drop_all() # heroku crashes if activated
     db.create_all()
@@ -48,10 +44,6 @@ def db_drop_and_create_all():
         release_date='2012-07-27',
     )
     movie.insert()
-
-#----------------------------------------------------------------------------#
-# Models.
-#----------------------------------------------------------------------------#
 
 #  Actor
 #  ----------------------------------------------------------------
@@ -92,6 +84,7 @@ class Actor(db.Model):
 
 #  Movie
 #  ----------------------------------------------------------------
+
 class Movie(db.Model):
     __tablename__ = 'movies'
 

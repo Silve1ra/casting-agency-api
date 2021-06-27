@@ -15,11 +15,6 @@ setup_db(app)
 
 CORS(app)
 
-# @app.after_request
-# def after_request(response):
-#     header = response.headers
-#     header['Access-Control-Allow-Origin'] = '*'
-#     return response
 
 @app.after_request
 def after_request(response):
@@ -52,6 +47,7 @@ def documentation():
 
 #  Actors
 #  ----------------------------------------------------------------
+
 
 @app.route('/actors')
 @requires_auth('get:actors')
@@ -255,9 +251,9 @@ def delete_movie(payload, movie_id):
     except BaseException:
         abort(422)
 
-#-----------------------------------------------------------------#
-# Error handlers.
-#-----------------------------------------------------------------#
+
+#  Error handlers
+#  ----------------------------------------------------------------
 
 
 @app.errorhandler(400)
@@ -312,6 +308,7 @@ def internal_server_error(error):
         "error": 500,
         "message": "internal server error"
     }), 500
+
 
 @app.errorhandler(AuthError)
 def auth_error(error):
