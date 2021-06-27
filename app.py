@@ -15,11 +15,22 @@ setup_db(app)
 
 CORS(app)
 
+# @app.after_request
+# def after_request(response):
+#     header = response.headers
+#     header['Access-Control-Allow-Origin'] = '*'
+#     return response
 
 @app.after_request
 def after_request(response):
-    header = response.headers
-    header['Access-Control-Allow-Origin'] = '*'
+    response.headers.add(
+        'Access-Control-Allow-Headers',
+        'Content-Type, Authorization, true')
+
+    response.headers.add(
+        'Access-Control-Allow-Methods',
+        'GET, PUT, POST, DELETE, OPTIONS')
+
     return response
 
 
