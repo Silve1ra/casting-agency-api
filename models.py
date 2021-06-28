@@ -45,11 +45,29 @@ def db_drop_and_create_all():
     )
     movie.insert()
 
+#  ORM Methods
+#  ----------------------------------------------------------------
+
+
+class ORMMethods(db.Model):
+    __abstract__ = True
+
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
 #  Actor
 #  ----------------------------------------------------------------
 
 
-class Actor(db.Model):
+class Actor(ORMMethods):
     __tablename__ = 'actors'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -61,17 +79,6 @@ class Actor(db.Model):
         self.name = name
         self.age = age
         self.gender = gender
-
-    def insert(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def update(self):
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
 
     def serialize(self):
         return {
@@ -85,23 +92,12 @@ class Actor(db.Model):
 #  Movie
 #  ----------------------------------------------------------------
 
-class Movie(db.Model):
+class Movie(ORMMethods):
     __tablename__ = 'movies'
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), nullable=False)
     release_date = db.Column(db.DateTime(), nullable=False)
-
-    def insert(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def update(self):
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
 
     def serialize(self):
         return {
