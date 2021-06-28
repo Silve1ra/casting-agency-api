@@ -95,6 +95,7 @@ cp -i env.example .env
 cd test\
 python test_app.py
 ```
+- Check if followed PEP8 Style Guide: `pycodestyle --first --exclude='*\migrations\*, *\venv\*' .`
 - Commit your feature: `git commit -m 'feat: My new feature'`;
 - Push to your branch: `git push -u origin my-feature`.
 
