@@ -4,8 +4,8 @@ import json
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from app_test import create_app
-from models_test import setup_db, db_drop_and_create_all, Actor, Movie
+from app import create_app
+from models import setup_db, db_drop_and_create_all, Actor, Movie
 
 # Auth Roles.
 #  ----------------------------------------------------------------
@@ -16,6 +16,9 @@ JWT_EXECUTIVE_PRODUCER = os.environ.get('PRODUCER')
 
 
 class CastingAgencyTestCase(unittest.TestCase):
+    print(JWT_CASTING_ASSISTANT)
+    print(JWT_CASTING_DIRECTOR)
+    print(JWT_EXECUTIVE_PRODUCER)
 
     # Db Config.
     #  ----------------------------------------------------------------
