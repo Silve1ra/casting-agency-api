@@ -102,6 +102,18 @@ python test_app.py
 The application is run on `http://127.0.0.1:5000/` by default.
 
 After the merge of your pull request is done, you can delete your branch.
+  
+## 🆙 Hosting
+To host the application on Heroku, please do the following:
+- Login to your account: `heroku login`
+- Create your app: `heroku create`
+- Add Heroku remote git url: `git remote add heroku heroku_git_url`
+- Add postgresql addon: `heroku addons:create heroku-postgresql:hobby-dev --app name_of_your_application`
+- Deploy your application: `git push heroku master`
+- Run the migrations to create the tables and populate initial data: `heroku run python -m flask db upgrade --app your_app_name`
+- Check if your database is correctly set up: `heroku pg`
+- Check if the app is properly running: `heroku ps`
+- Open the app: `heroku open`
 
 ## :memo: License
 
