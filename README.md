@@ -79,16 +79,16 @@ All code follows [PEP8 style guidelines](https://www.python.org/dev/peps/pep-000
 
 - Clone the project: `git clone git@github.com:Silve1ra/casting-agency-api.git`;
 - Create your branch with your feature: `git checkout -b my-feature`;
+- Set up your .env file and add your own Auth0 configuration:
+```
+cp -i env.example .env
+```
 - Run the project: 
 ```
 .\venv\scripts\activate
 python -r requirements.txt
 .\setup.sh
 flask run
-```
-- Create your .env file and add your Auth0 configuration:
-```
-cp -i env.example .env
 ```
 - Run the tests: 
 ```
