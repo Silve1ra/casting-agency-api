@@ -25,7 +25,7 @@
 </p>
 
 <p align="center">
-  <img alt="CastingAgencyAPI" src="api-demo.png" width="60%"
+  <img alt="CastingAgencyAPI" src="api-demo.png" width="100%"
 </p>
 
 ## 💻 Live Preview
