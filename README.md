@@ -81,7 +81,7 @@ All code follows [PEP8 style guidelines](https://www.python.org/dev/peps/pep-000
 - Create your branch with your feature: `git checkout -b my-feature`;
 - Run the project: 
 ```
-.\env\scripts\activate
+.\venv\scripts\activate
 python -r requirements.txt
 .\setup.sh
 flask run
