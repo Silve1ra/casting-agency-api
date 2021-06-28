@@ -37,16 +37,20 @@ There is also the documentation with more details, please refer [here](https://c
 
 ## :page_with_curl: About
 
-This is the capstone project of Udacity [Full Stack Web Developer](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd0044) Nanodegree Program.
-
 The Casting Agency models is a company responsible for creating movies and managing and assigning actors to those movies.
 
-There are three roles:
+This project is part of Udacity [Full Stack Web Developer](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd0044) Nanodegree Program.
+
+#### RBAC  
+
+The application has CRUD methods performed within two entities, actors and movies. In order to perform these operations, there are three roles:
 1. Casting Assistant
 2. Casting Director
 3. Executive Producer
 
-Each role has different permissions within the application, going from retrieving actors/movies information to update and delete them. It is a complete CRUD with these two entities.
+Each role has different permissions, going from retrieving actors/movies information to update and delete them. 
+  
+#### Errors
 
 Errors are returned as JSON objects in the following format:
 ```
@@ -64,6 +68,8 @@ The API will return these error types when requests fail:
 - 422: Unprocessable 
 - 500: Internal Server Error
 
+#### Guidelines
+  
 All code follows [PEP8 style guidelines](https://www.python.org/dev/peps/pep-0008/). 
 
 ## :wrench: Built With
