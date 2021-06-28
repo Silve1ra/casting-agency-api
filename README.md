@@ -42,6 +42,12 @@ The Casting Agency models is a company responsible for creating movies and manag
 
 This project is part of Udacity [Full Stack Web Developer](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd0044) Nanodegree Program.
 
+#### Motivation
+Develop a powerful modern web application doing:
+1. Design and build databases for software application,
+2. Create and deploy database-backed web API, and
+3. Secure and manage user authentication and access control.
+
 #### RBAC  
 
 The application has CRUD methods performed within two entities, actors and movies. In order to perform these operations, there are three roles:
