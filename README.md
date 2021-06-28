@@ -113,6 +113,7 @@ cd test\
 python test_app.py
 ```
 - Check if followed PEP8 Style Guide: `pycodestyle --first --exclude='*\migrations\*, *\venv\*' .`
+- If there is a style problem: `autopep8 --in-place --aggressive .\file_name`
 - Commit your feature: `git commit -m 'feat: My new feature'`;
 - Push to your branch: `git push -u origin my-feature`.
 
