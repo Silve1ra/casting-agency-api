@@ -24,6 +24,9 @@
   <a href="#memo-license">License</a>
 </p>
 
+<p align="center">
+  <img alt="CastingAgencyAPI" src="api-demo.png" width="60%"
+</p>
 
 ## 💻 Live Preview
 
