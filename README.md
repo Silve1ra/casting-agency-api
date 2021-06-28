@@ -37,8 +37,7 @@
 
 You can access this api [here](https://casting-api-silve1ra.herokuapp.com). 
 
-There is also the documentation with more details, please refer [here](https://casting-api-silve1ra.herokuapp.com/docs).
-
+There is also the [Official Documentation](https://casting-api-silve1ra.herokuapp.com/docs) with more details. All the endpoints references and login authorization are covered there.
 
 ## :page_with_curl: About
 
