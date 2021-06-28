@@ -1,5 +1,9 @@
+<h1 align="center">
+    <img alt="CastingAgency" title="#casting-agency" src="casting-logo.png" width="250px" />
+</h1>
+
 <h4 align="center">
-  🚀 Casting Agency API
+  🚀 An API to help movie agencies with their actors.
 </h4>
 
 <p align="center">
