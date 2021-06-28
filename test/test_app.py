@@ -1,7 +1,3 @@
-#----------------------------------------------------------------------------#
-# Imports
-#----------------------------------------------------------------------------#
-
 import os
 import unittest
 import json
@@ -11,22 +7,18 @@ from flask_sqlalchemy import SQLAlchemy
 from app_test import create_app
 from models_test import setup_db, db_drop_and_create_all, Actor, Movie
 
-#----------------------------------------------------------------------------#
 # Auth Roles.
-#----------------------------------------------------------------------------#
-JWT_CASTING_ASSISTANT = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBtRXg1YzJ2TmVyaE15RHB4VFB5NiJ9.eyJpc3MiOiJodHRwczovL3NpbHZlMXJhLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MGQ1MjhjYmYzNWU0MjAwNzE5YjhhNTUiLCJhdWQiOiJjYXN0aW5nLWFnZW5jeSIsImlhdCI6MTYyNDgzNDU0MywiZXhwIjoxNjI0OTIwOTQzLCJhenAiOiJtN3hqVE00WTJTcUdmTFJrOVk3aFRjcjhCYnhjaWZiVSIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiXX0.Gi5TalwpoVBF9BdrgYKwCXuVEMhz6MfWAwo07fNW9-t0b5_RIFChKHY6URWAUeUVemPN-ThRlGOT9RJLEy_dOceoqw_U9H65Vf3_fChpgR0leWGDFhqeQWQkiToNT0Kmwpy3C50JreyN-_m30-crEpZYH_vLUhKxrLethfT4cW_DaEpEpMGFn3WshkEGl3mFy0jtmDRGcjEOU7t8a_YoL8pUULDuIOLKhvDnHGEX08fBvDstQ_uPs_CVle5B4XAne5u91vyNq2jbj1IfpW1fcEmM6F22dpIix3XbagVKiQ0qfG7uywU5WXrxbQEG4Yzvk_E9R-6pLzJtsBqoCNpjvg'
+#  ----------------------------------------------------------------
 
-JWT_CASTING_DIRECTOR = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBtRXg1YzJ2TmVyaE15RHB4VFB5NiJ9.eyJpc3MiOiJodHRwczovL3NpbHZlMXJhLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MGQ1MjkxMWMwYjgwYTAwNmE4MmMyNTYiLCJhdWQiOiJjYXN0aW5nLWFnZW5jeSIsImlhdCI6MTYyNDgzNDU4NCwiZXhwIjoxNjI0OTIwOTg0LCJhenAiOiJtN3hqVE00WTJTcUdmTFJrOVk3aFRjcjhCYnhjaWZiVSIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9ycyIsImdldDphY3RvcnMiLCJnZXQ6bW92aWVzIiwicGF0Y2g6YWN0b3JzIiwicGF0Y2g6bW92aWVzIiwicG9zdDphY3RvcnMiXX0.YWRYaz47nTinK26_UinIG7oygpTftEXfHINFTpb6CKsRlzMoAH9xIkljXsu_dqatqm2ZVmTVMlRFGLtyWUPKZgMERfoBOeMPJMtPjnShMUYJ-c56appX-E4L2GQyOyFx6APFKR2hxPtn_1pdvxpa_XozeczzCr3LxI45RVLfKhWX16Iu4PkwqshO1HDcO6K06p7YIpB6-DIa1yODeSY2H7sP5eLGix5Q9a8VqHy9jroj6P78vPWwFnRs__bXBKjppUnVg0o5XYqy5d9WL_Lxzh7057ELGtxvNef9O5bnRgWNLrX2cVYaH7_6fqgKqgETan0Lcr38dr6pZvSsLNQhFQ'
-
-JWT_EXECUTIVE_PRODUCER = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBtRXg1YzJ2TmVyaE15RHB4VFB5NiJ9.eyJpc3MiOiJodHRwczovL3NpbHZlMXJhLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MGQ1Mjk2MmZiMTQ2ZjAwNjkwNTI4NWQiLCJhdWQiOiJjYXN0aW5nLWFnZW5jeSIsImlhdCI6MTYyNDgzNDYyMSwiZXhwIjoxNjI0OTIxMDIxLCJhenAiOiJtN3hqVE00WTJTcUdmTFJrOVk3aFRjcjhCYnhjaWZiVSIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9ycyIsImRlbGV0ZTptb3ZpZXMiLCJnZXQ6YWN0b3JzIiwiZ2V0Om1vdmllcyIsInBhdGNoOmFjdG9ycyIsInBhdGNoOm1vdmllcyIsInBvc3Q6YWN0b3JzIiwicG9zdDptb3ZpZXMiXX0.YBpJNpFZpwLdzqgwy1NpyW5wNWTvNi958SULsdZY-XEx_UdzSdM4P1EbmPOpSpo_SADLCTLS5ElCaPqMgEe0ONWw5q49YRj0EddAaZdgmpchiQMTFsDfQc-rPb0zoBoZIETY-9ryLiXxX1xb0jTCyjijn8Q3Q-nBxPUV82oXvoF2PvvGirwCs5-iMktKC-EknGL74V57cjrA9W6cMLbPlbqPcd3jeC2OAgtLo_Jji2o1IXnvBOAjXUJ7SK-2zpnAKcanIylhB_DLghpG3gYm301Tf_vSoIA3jNLmeox1FLXX_CAjqFRaTAm43iMhN5-oCKUrO5xCtx6dumV_dz8fMw'
+JWT_CASTING_ASSISTANT = os.environ.get('ASSISTANT')
+JWT_CASTING_DIRECTOR = os.environ.get('DIRECTOR')
+JWT_EXECUTIVE_PRODUCER = os.environ.get('PRODUCER')
 
 
 class CastingAgencyTestCase(unittest.TestCase):
-    """This class represents the trivia test case"""
 
-    #----------------------------------------------------------------------------#
     # Db Config.
-    #----------------------------------------------------------------------------#
+    #  ----------------------------------------------------------------
 
     def setUp(self):
         """Define test variables and initialize app."""
@@ -51,9 +43,8 @@ class CastingAgencyTestCase(unittest.TestCase):
         """Executed after reach test"""
         pass
 
-    #----------------------------------------------------------------------------#
     # Unit tests.
-    #----------------------------------------------------------------------------#
+    #  ----------------------------------------------------------------
 
     #  Actor
     #  ----------------------------------------------------------------
@@ -98,10 +89,12 @@ class CastingAgencyTestCase(unittest.TestCase):
             "gender": "female"
         }
 
-        res = self.client().post('/actors', json=new_actor,
-                                 headers={
-                                     "Authorization": "Bearer " + JWT_CASTING_DIRECTOR}
-                                 )
+        res = self.client().post(
+            '/actors',
+            json=new_actor,
+            headers={
+                "Authorization": "Bearer " +
+                JWT_CASTING_DIRECTOR})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -113,10 +106,12 @@ class CastingAgencyTestCase(unittest.TestCase):
             "gender": "female"
         }
 
-        res = self.client().post('/actors', json=new_actor,
-                                 headers={
-                                     "Authorization": "Bearer " + JWT_CASTING_DIRECTOR}
-                                 )
+        res = self.client().post(
+            '/actors',
+            json=new_actor,
+            headers={
+                "Authorization": "Bearer " +
+                JWT_CASTING_DIRECTOR})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 400)
@@ -131,10 +126,9 @@ class CastingAgencyTestCase(unittest.TestCase):
         }
 
         url = '/actors/' + str(actor_id)
-        res = self.client().patch(url, json=updated_actor,
-                                  headers={
-                                      "Authorization": "Bearer " + JWT_CASTING_DIRECTOR}
-                                  )
+        res = self.client().patch(
+            url, json=updated_actor, headers={
+                "Authorization": "Bearer " + JWT_CASTING_DIRECTOR})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -149,10 +143,9 @@ class CastingAgencyTestCase(unittest.TestCase):
         }
 
         url = '/actors/' + str(actor_id)
-        res = self.client().patch(url, json=updated_actor,
-                                  headers={
-                                      "Authorization": "Bearer " + JWT_CASTING_DIRECTOR}
-                                  )
+        res = self.client().patch(
+            url, json=updated_actor, headers={
+                "Authorization": "Bearer " + JWT_CASTING_DIRECTOR})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -161,10 +154,11 @@ class CastingAgencyTestCase(unittest.TestCase):
     def test_delete_actor(self):
         actor_id = 1
         url = '/actors/' + str(actor_id)
-        res = self.client().delete(url,
-                                   headers={
-                                       "Authorization": "Bearer " + JWT_CASTING_DIRECTOR}
-                                   )
+        res = self.client().delete(
+            url,
+            headers={
+                "Authorization": "Bearer " +
+                JWT_CASTING_DIRECTOR})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -174,10 +168,11 @@ class CastingAgencyTestCase(unittest.TestCase):
     def test_404_delete_actor(self):
         actor_id = 999
         url = '/actors/' + str(actor_id)
-        res = self.client().delete(url,
-                                   headers={
-                                       "Authorization": "Bearer " + JWT_CASTING_DIRECTOR}
-                                   )
+        res = self.client().delete(
+            url,
+            headers={
+                "Authorization": "Bearer " +
+                JWT_CASTING_DIRECTOR})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -260,10 +255,9 @@ class CastingAgencyTestCase(unittest.TestCase):
         }
 
         url = '/movies/' + str(movie_id)
-        res = self.client().patch(url, json=updated_movie,
-                                  headers={
-                                      "Authorization": "Bearer " + JWT_CASTING_DIRECTOR}
-                                  )
+        res = self.client().patch(
+            url, json=updated_movie, headers={
+                "Authorization": "Bearer " + JWT_CASTING_DIRECTOR})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -278,10 +272,9 @@ class CastingAgencyTestCase(unittest.TestCase):
         }
 
         url = '/movies/' + str(movie_id)
-        res = self.client().patch(url, json=updated_movie,
-                                  headers={
-                                      "Authorization": "Bearer " + JWT_CASTING_DIRECTOR}
-                                  )
+        res = self.client().patch(
+            url, json=updated_movie, headers={
+                "Authorization": "Bearer " + JWT_CASTING_DIRECTOR})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -290,10 +283,11 @@ class CastingAgencyTestCase(unittest.TestCase):
     def test_delete_movie(self):
         movie_id = 1
         url = '/movies/' + str(movie_id)
-        res = self.client().delete(url,
-                                   headers={
-                                       "Authorization": "Bearer " + JWT_EXECUTIVE_PRODUCER}
-                                   )
+        res = self.client().delete(
+            url,
+            headers={
+                "Authorization": "Bearer " +
+                JWT_EXECUTIVE_PRODUCER})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -303,10 +297,11 @@ class CastingAgencyTestCase(unittest.TestCase):
     def test_404_delete_movie(self):
         movie_id = 999
         url = '/movies/' + str(movie_id)
-        res = self.client().delete(url,
-                                   headers={
-                                       "Authorization": "Bearer " + JWT_EXECUTIVE_PRODUCER}
-                                   )
+        res = self.client().delete(
+            url,
+            headers={
+                "Authorization": "Bearer " +
+                JWT_EXECUTIVE_PRODUCER})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -326,10 +321,12 @@ class CastingAgencyTestCase(unittest.TestCase):
             "gender": "female"
         }
 
-        res = self.client().post('/actors', json=new_actor,
-                                 headers={
-                                     "Authorization": "Bearer " + JWT_CASTING_ASSISTANT}
-                                 )
+        res = self.client().post(
+            '/actors',
+            json=new_actor,
+            headers={
+                "Authorization": "Bearer " +
+                JWT_CASTING_ASSISTANT})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
@@ -342,10 +339,12 @@ class CastingAgencyTestCase(unittest.TestCase):
             "release_date": "2000-01-20"
         }
 
-        res = self.client().post('/movies', json=new_movie,
-                                 headers={
-                                     "Authorization": "Bearer " + JWT_CASTING_ASSISTANT}
-                                 )
+        res = self.client().post(
+            '/movies',
+            json=new_movie,
+            headers={
+                "Authorization": "Bearer " +
+                JWT_CASTING_ASSISTANT})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
@@ -361,10 +360,12 @@ class CastingAgencyTestCase(unittest.TestCase):
         }
 
         url = '/actors/' + str(actor_id)
-        res = self.client().patch(url, json=updated_actor,
-                                  headers={
-                                      "Authorization": "Bearer " + JWT_CASTING_ASSISTANT}
-                                  )
+        res = self.client().patch(
+            url,
+            json=updated_actor,
+            headers={
+                "Authorization": "Bearer " +
+                JWT_CASTING_ASSISTANT})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
@@ -380,10 +381,12 @@ class CastingAgencyTestCase(unittest.TestCase):
         }
 
         url = '/movies/' + str(movie_id)
-        res = self.client().patch(url, json=updated_movie,
-                                  headers={
-                                      "Authorization": "Bearer " + JWT_CASTING_ASSISTANT}
-                                  )
+        res = self.client().patch(
+            url,
+            json=updated_movie,
+            headers={
+                "Authorization": "Bearer " +
+                JWT_CASTING_ASSISTANT})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
@@ -393,10 +396,11 @@ class CastingAgencyTestCase(unittest.TestCase):
     def test_401_assistant_delete_actor(self):
         actor_id = 1
         url = '/actors/' + str(actor_id)
-        res = self.client().delete(url,
-                                   headers={
-                                       "Authorization": "Bearer " + JWT_CASTING_ASSISTANT}
-                                   )
+        res = self.client().delete(
+            url,
+            headers={
+                "Authorization": "Bearer " +
+                JWT_CASTING_ASSISTANT})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
@@ -406,10 +410,11 @@ class CastingAgencyTestCase(unittest.TestCase):
     def test_401_assistant_delete_movie(self):
         movie_id = 1
         url = '/movies/' + str(movie_id)
-        res = self.client().delete(url,
-                                   headers={
-                                       "Authorization": "Bearer " + JWT_CASTING_ASSISTANT}
-                                   )
+        res = self.client().delete(
+            url,
+            headers={
+                "Authorization": "Bearer " +
+                JWT_CASTING_ASSISTANT})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
@@ -426,10 +431,12 @@ class CastingAgencyTestCase(unittest.TestCase):
             "release_date": "2000-01-20"
         }
 
-        res = self.client().post('/movies', json=new_movie,
-                                 headers={
-                                     "Authorization": "Bearer " + JWT_CASTING_DIRECTOR}
-                                 )
+        res = self.client().post(
+            '/movies',
+            json=new_movie,
+            headers={
+                "Authorization": "Bearer " +
+                JWT_CASTING_DIRECTOR})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
@@ -439,10 +446,11 @@ class CastingAgencyTestCase(unittest.TestCase):
     def test_401_director_delete_movie(self):
         movie_id = 1
         url = '/movies/' + str(movie_id)
-        res = self.client().delete(url,
-                                   headers={
-                                       "Authorization": "Bearer " + JWT_CASTING_DIRECTOR}
-                                   )
+        res = self.client().delete(
+            url,
+            headers={
+                "Authorization": "Bearer " +
+                JWT_CASTING_DIRECTOR})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)

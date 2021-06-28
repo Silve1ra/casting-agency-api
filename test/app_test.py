@@ -7,6 +7,7 @@ from models_test import setup_db, Actor, Movie
 from helpers_test import paginate_items
 from auth_test import AuthError, requires_auth
 
+
 def create_app():
 
     app = Flask(__name__, static_url_path='/static')
@@ -16,7 +17,6 @@ def create_app():
     #  ----------------------------------------------------------------
 
     CORS(app)
-
 
     @app.after_request
     def after_request(response):
@@ -30,7 +30,6 @@ def create_app():
 
         return response
 
-
     #  System
     #  ----------------------------------------------------------------
 
@@ -42,14 +41,12 @@ def create_app():
             'author': 'Felipe Silveira'
         })
 
-
     @app.route('/docs')
     def documentation():
         return render_template('index.html')
 
     #  Actors
     #  ----------------------------------------------------------------
-
 
     @app.route('/actors')
     @requires_auth('get:actors')
@@ -66,7 +63,6 @@ def create_app():
         except BaseException:
             abort(400)
 
-
     @app.route('/actors/<int:actor_id>')
     @requires_auth('get:actors')
     def show_actor(payload, actor_id):
@@ -78,7 +74,6 @@ def create_app():
             })
         except BaseException:
             abort(404)
-
 
     @app.route('/actors', methods=['POST'])
     @requires_auth('post:actors')
@@ -100,7 +95,6 @@ def create_app():
             })
         except BaseException:
             abort(422)
-
 
     @app.route('/actors/<int:actor_id>', methods=['PATCH'])
     @requires_auth('patch:actors')
@@ -133,7 +127,6 @@ def create_app():
         except BaseException:
             abort(400)
 
-
     @app.route('/actors/<int:actor_id>', methods=['DELETE'])
     @requires_auth('delete:actors')
     def delete_actor(payload, actor_id):
@@ -154,7 +147,6 @@ def create_app():
     #  Movies
     #  ----------------------------------------------------------------
 
-
     @app.route('/movies')
     @requires_auth('get:movies')
     def get_movies(payload):
@@ -170,7 +162,6 @@ def create_app():
         except BaseException:
             abort(400)
 
-
     @app.route('/movies/<int:movie_id>')
     @requires_auth('get:movies')
     def show_movie(payload, movie_id):
@@ -183,7 +174,6 @@ def create_app():
 
         except BaseException:
             abort(404)
-
 
     @app.route('/movies', methods=['POST'])
     @requires_auth('post:movies')
@@ -205,7 +195,6 @@ def create_app():
 
         except BaseException:
             abort(422)
-
 
     @app.route('/movies/<int:movie_id>', methods=['PATCH'])
     @requires_auth('patch:movies')
@@ -235,7 +224,6 @@ def create_app():
         except BaseException:
             abort(400)
 
-
     @app.route('/movies/<int:movie_id>', methods=['DELETE'])
     @requires_auth('delete:movies')
     def delete_movie(payload, movie_id):
@@ -253,10 +241,8 @@ def create_app():
         except BaseException:
             abort(422)
 
-
     #  Error handlers
     #  ----------------------------------------------------------------
-
 
     @app.errorhandler(400)
     def bad_request(error):
@@ -266,7 +252,6 @@ def create_app():
             "message": "bad request"
         }), 400
 
-
     @app.errorhandler(401)
     def unauthorized(error):
         return jsonify({
@@ -274,7 +259,6 @@ def create_app():
             "error": 401,
             "message": 'unathorized'
         }), 401
-
 
     @app.errorhandler(404)
     def not_found(error):
@@ -284,7 +268,6 @@ def create_app():
             "message": "resource not found"
         }), 404
 
-
     @app.errorhandler(405)
     def not_allowed(error):
         return jsonify({
@@ -292,7 +275,6 @@ def create_app():
             "error": 405,
             "message": "method not allowed"
         }), 405
-
 
     @app.errorhandler(422)
     def unprocessable(error):
@@ -302,7 +284,6 @@ def create_app():
             "message": "unprocessable"
         }), 422
 
-
     @app.errorhandler(500)
     def internal_server_error(error):
         return jsonify({
@@ -310,7 +291,6 @@ def create_app():
             "error": 500,
             "message": "internal server error"
         }), 500
-
 
     @app.errorhandler(AuthError)
     def auth_error(error):
@@ -321,6 +301,7 @@ def create_app():
         }), error.status_code
 
     return app
+
 
 app = create_app()
 
