@@ -25,7 +25,7 @@ def create_app():
 
         response.headers.add(
             'Access-Control-Allow-Methods',
-            'GET, PUT, POST, DELETE, OPTIONS')
+            'GET, PUT, PATCH, POST, DELETE, OPTIONS')
 
         return response
 
