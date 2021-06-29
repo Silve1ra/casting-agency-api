@@ -27,7 +27,12 @@ def setup_db(app, database_path=database_path):
 #  ----------------------------------------------------------------
 
 def db_drop_and_create_all():
-    # db.drop_all() # heroku crashes -> activate for tests
+    '''
+    Please, remove the comment here in order to perform the tests
+    Heroku crashes if it is activated.
+    '''
+    # db.drop_all()
+    
     db.create_all()
 
     # add one demo row for actors
