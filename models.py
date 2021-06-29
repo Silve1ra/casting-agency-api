@@ -32,8 +32,7 @@ def db_drop_and_create_all():
     Heroku crashes if it is activated.
     '''
     # db.drop_all()
-    
-    db.create_all()
+    # db.create_all()
 
     # add one demo row for actors
     actor = Actor(
